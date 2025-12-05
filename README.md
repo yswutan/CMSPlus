@@ -4,6 +4,7 @@ An R package for molecular subtyping by integrating the inter-tumor and intra-tu
 ```
 devtools::install_github("yswutan/CMSPlus")
 library(CMSPlus)
+library(GSVA)
 
 ## exp2symbol: a dataframe with Gene Expression Profiles data values,
 ##       samples in columns, genes in rows, rownames corresponding to gene symbols
@@ -12,3 +13,4 @@ library(CMSPlus)
 CMSPlusLabels <- CMSPlus(exp2symbol, plot=TRUE, parallel.sz=0)
 
 ```
+
