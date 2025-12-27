@@ -75,6 +75,7 @@ An R package for molecular subtyping by integrating the tumor microenviroment he
    - **`res$HeatmapPlot`**
       - **Content**: A pathway-level heatmap visualizing GSVA enrichment scores across samples, with integrated molecular subtype annotations.
 
-      <img width="1004" height="751" alt="Heatmap" src="https://github.com/user-attachments/assets/0c7e44b0-12f3-46de-ba4b-52b4a505058a" />
+      <img width="1046" height="753" alt="Heatmap" src="https://github.com/user-attachments/assets/49357d3b-eba8-4ec6-b292-b583f6142f5b" />
+
 
 
