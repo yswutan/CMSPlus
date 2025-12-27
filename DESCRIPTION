@@ -1,0 +1,20 @@
+Package: CMSPlus
+Type: Package
+Title: an R package for molecular subtyping by integrating the tumor microenviroment heterogeneity of colorectal cancer
+Version: 0.1.0
+Author: person(given = "Tan", family = "Wu", email = "wt.wutan@hotmail.com", role = c("aut", "cre"))
+Maintainer: The package maintainer <wt.wutan@hotmail.com>
+Description: This package could classified colorectal cancer samples into five distinct molecular subtypes: CMS1, CMS2, CMS3, CMS4-TME+, CMS-TME-
+License: GPL
+Encoding: UTF-8
+LazyData: true
+Imports: 
+		tcltk,
+		GSVA,
+		CMSclassifier,
+		ComplexHeatmap,
+		circlize,
+		parallel,
+		ranger,
+		randomForest
+RoxygenNote: 7.3.3
