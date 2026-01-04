@@ -163,9 +163,14 @@ RowDFtoRawNum <- function(ExpDataframe){
 #' @import ComplexHeatmap
 #' @import circlize
 PlotHeatMap <- function(ClinData, GSVAData, CMSPlus, CMS, SDI, InterGroupRandomize=T, seed=123){
+	if(length(CMS) == 0){
+		CMSLables <- ClinData[, CMS]
+	} else {
+		CMSLables <- CMS
+	}
   columnAnno = HeatmapAnnotation(
     CMSPlus = ClinData[, CMSPlus],
-    CMS=ClinData[, CMS],
+    CMS=CMSLables,
     col = list(CMSPlus =c(CMS1='#E69F24',CMS2='#0273B3', CMS3='#CC79A7', "CMS4-TME+"='#3C5488', "CMS4-TME-"='#8491B4'), CMS = c(CMS1='#E69F24',CMS2='#0273B3', CMS3='#CC79A7', CMS4="#009F73"))
   )
   col_fun = colorRamp2(unique(c(seq(-1, 0, length.out=18), seq(0, 1, length.out=18))), colorRampPalette(c("#368ABF", "#68C3A7", "#AED8A3", "#E3EA9B", "white", "#FDE18B", "#F9AF62", "#F36D46", "#D54150"))(35))
@@ -173,23 +178,23 @@ PlotHeatMap <- function(ClinData, GSVAData, CMSPlus, CMS, SDI, InterGroupRandomi
   dendtcga = cluster_within_group(GSVAData, ClinData[, CMSPlus])
   P1 <- Heatmap(GSVAData, col = col_fun, cluster_rows = FALSE, cluster_columns = dendtcga, top_annotation = columnAnno, column_labels=rep("", dim(GSVAData)[2]))
   if(InterGroupRandomize){
-    set.seed(seed)
-    columnOrder <- c(sample(intersect(column_order(P1), grep("CMS1", ClinData[, CMSPlus]))), sample(intersect(column_order(P1), grep("CMS2", ClinData[, CMSPlus]))), sample(intersect(column_order(P1), grep("CMS3", ClinData[, CMSPlus]))), sample(intersect(column_order(P1), grep("CMS4-TME\\+", ClinData[, CMSPlus]))), sample(intersect(column_order(P1), grep("CMS4-TME-", ClinData[, CMSPlus]))))
+	  set.seed(seed)
+	  columnOrder <- c(sample(intersect(column_order(P1), grep("CMS1", ClinData[, CMSPlus]))), sample(intersect(column_order(P1), grep("CMS2", ClinData[, CMSPlus]))), sample(intersect(column_order(P1), grep("CMS3", ClinData[, CMSPlus]))), sample(intersect(column_order(P1), grep("CMS4-TME\\+", ClinData[, CMSPlus]))), sample(intersect(column_order(P1), grep("CMS4-TME-", ClinData[, CMSPlus]))))
   } else {
-    columnOrder <- c(intersect(column_order(P1), grep("CMS1", ClinData[, CMSPlus])), intersect(column_order(P1), grep("CMS2", ClinData[, CMSPlus])), intersect(column_order(P1), grep("CMS3", ClinData[, CMSPlus])), intersect(column_order(P1), grep("CMS4-TME\\+", ClinData[, CMSPlus])), intersect(column_order(P1), grep("CMS4-TME-", ClinData[, CMSPlus])))
+	  columnOrder <- c(intersect(column_order(P1), grep("CMS1", ClinData[, CMSPlus])), intersect(column_order(P1), grep("CMS2", ClinData[, CMSPlus])), intersect(column_order(P1), grep("CMS3", ClinData[, CMSPlus])), intersect(column_order(P1), grep("CMS4-TME\\+", ClinData[, CMSPlus])), intersect(column_order(P1), grep("CMS4-TME-", ClinData[, CMSPlus])))
   }
   if(length(SDI)>0){
     ClinData[, SDI] <- gsub("-", "_", ClinData[, SDI])
     columnAnno2 = HeatmapAnnotation(
       CMSPlus = ClinData[, CMSPlus][columnOrder],
-      CMS=ClinData[, CMS][columnOrder],
+      CMS=CMSLables[columnOrder],
       CMSSDI=ClinData[, SDI][columnOrder],
       col = list(CMSPlus =c(CMS1='#E69F24',CMS2='#0273B3', CMS3='#CC79A7', "CMS4-TME+"='#3C5488', "CMS4-TME-"='#8491B4'), CMS = c(CMS1='#E69F24',CMS2='#0273B3', CMS3='#CC79A7', CMS4="#009F73"), CMSSDI=c(CMS1='#E69F24',CMS2='#0273B3', CMS3='#CC79A7', CMS4_HighSDI='#C2CB1E', CMS4_LowSDI='#537A34')
       ))
   } else {
     columnAnno2 = HeatmapAnnotation(
       CMSPlus = ClinData[, CMSPlus][columnOrder],
-      CMS=ClinData[, CMS][columnOrder],
+      CMS=CMSLables[columnOrder],
       #CMSSDI=ClinData[, SDI][columnOrder],
       col = list(CMSPlus =c(CMS1='#E69F24',CMS2='#0273B3', CMS3='#CC79A7', "CMS4-TME+"='#3C5488', "CMS4-TME-"='#8491B4'), CMS = c(CMS1='#E69F24',CMS2='#0273B3', CMS3='#CC79A7', CMS4="#009F73"), CMSSDI=c(CMS1='#E69F24',CMS2='#0273B3', CMS3='#CC79A7', CMS4_HighSDI='#C2CB1E', CMS4_LowSDI='#537A34')
       ))
@@ -206,4 +211,5 @@ PlotHeatMap <- function(ClinData, GSVAData, CMSPlus, CMS, SDI, InterGroupRandomi
   ht_list = P2%v%P3
   draw(ht_list)
 }
+
 
